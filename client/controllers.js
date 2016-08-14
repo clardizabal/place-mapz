@@ -3,7 +3,7 @@
 angular.module('app.controllers', [])
 
 .controller('SearchCtrl', function($scope, GoogleSearch) {
-  $scope.testKey = GoogleSearch.testKey;
+  $scope.query;
   $scope.places = [];
   $scope.latitude;
   $scope.longitude;
@@ -19,9 +19,9 @@ angular.module('app.controllers', [])
   };
 
   /* Use GoogleSearch service to query API for places */
-  $scope.searchGoogle = function(latitude, longitude) {
+  $scope.searchGoogle = function(query, latitude, longitude) {
     
-    GoogleSearch($scope.latitude, $scope.longitude)
+    GoogleSearch($scope.query, $scope.latitude, $scope.longitude)
     
     .then(function(data) {
       $scope.places = data.results;

@@ -4,7 +4,7 @@
     <h1>Place Mapz</h1>
     <div ng-app='app' ng-controller='SearchCtrl'>
       <form>
-        Find: <input type='text' name='find'>
+        Find: <input type='text' name='find' ng-model='query'>
       </form>
       <button ng-click='searchGoogle()'>Search</button>
       <div ng-repeat='place in places'>
