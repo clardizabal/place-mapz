@@ -2,14 +2,34 @@
 angular.module('app.googleServices', [])
 
 .factory('GoogleSearch', function($http) {
-  // const KEY = require('config.js');
-
-  var testKey = function() {
+  const test = 'coffee';
+  const testKey = function() {
     console.log(GOOGLE_PLACES_API_KEY);
   };
 
+  const searchGoogle = function(latitude, longitude) {
+    return $http({
+      method: 'GET',
+      url: 'https://maps.googleapis.com/maps/api/place/textsearch/json?',
+      headers: {
+
+      },
+      params: {
+        query: test,
+        key: GOOGLE_PLACES_API_KEY,
+        location: latitude + ',' + longitude,
+        rankby: 'prominence',
+        radius: 20000,
+      },
+    }).then(function(response) {
+      console.log(response.data);
+      return response.data;
+    });
+  };
+
   return {
-    testKey:testKey,
-  }
+    testKey: testKey,
+    searchGoogle: searchGoogle,
+  };
 
 });
