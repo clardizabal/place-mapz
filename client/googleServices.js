@@ -2,7 +2,6 @@
 angular.module('app.googleServices', [])
 
 .factory('GoogleSearch', function($http) {
-  const test = 'coffee';
 
   return function(query, latitude, longitude) {
     
@@ -15,10 +14,10 @@ angular.module('app.googleServices', [])
         key: GOOGLE_PLACES_API_KEY,
         location: latitude + ',' + longitude,
         rankby: 'prominence',
-        radius: 20000,
+        radius: RADIUS,
       },
     }).then(function(response) {
-
+      console.log(response.data);
       return response.data;
     });
   };

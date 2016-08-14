@@ -9,6 +9,8 @@
       <button ng-click='searchGoogle()'>Search</button>
       <div ng-repeat='place in places'>
         <h2>{{place.name}}</h2>
+        <h4>{{place.formatted_address}}</h2>
+        <!-- <img src={{place.icon}}> -->
       </div>
     </div>
   </body>
