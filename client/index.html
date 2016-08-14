@@ -6,7 +6,7 @@
       <form>
         Find: <input type='text' name='find'>
       </form>
-      <button ng-click='getLocation(searchGoogle)'>Search</button>
+      <button ng-click='searchGoogle()'>Search</button>
       <div ng-repeat='place in places'>
         <h2>{{place.name}}</h2>
       </div>

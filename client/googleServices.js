@@ -8,7 +8,7 @@ angular.module('app.googleServices', [])
     
     return $http({
       method: 'GET',
-      url: 'https://maps.googleapis.com/maps/api/place/textsearch/json?',
+      url: 'https://maps.googleapis.com/maps/api/place/textsearch/json',
       headers: {},
       params: {
         query: test,
