@@ -3,7 +3,7 @@ angular.module('app.googleServices', [])
 
 .factory('GoogleSearch', function($http) {
 
-  return function(query, latitude, longitude) {
+  var search = function(query, latitude, longitude) {
     
     return $http({
       method: 'GET',
@@ -17,8 +17,12 @@ angular.module('app.googleServices', [])
         radius: RADIUS,
       },
     }).then(function(response) {
-      console.log(response.data);
+      
       return response.data;
     });
   };
+
+  return {
+    search: search
+  }
 });

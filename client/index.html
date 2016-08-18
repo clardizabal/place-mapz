@@ -2,20 +2,28 @@
 <html>
   <body>
     <h1>Place Mapz</h1>
-    <div ng-app='app' ng-controller='SearchCtrl'>
-      <form>
-        Find: <input type='text' name='find' ng-model='query'>
-      </form>
-      <button ng-click='searchGoogle()'>Search</button>
-      <div ng-repeat='place in places'>
-        <h2>{{place.name}}</h2>
-        <h4>{{place.formatted_address}}</h2>
-        <!-- <img src={{place.icon}}> -->
+    <div ng-app='app'> 
+      <!-- MAP -->
+      <!-- <div ng-controller='MapCtrl'>
+        <div id="map"></div>
+      </div> -->
+      <!-- SEARCH -->
+      <div ng-controller='SearchCtrl'>
+        <form>
+          Find: <input type='text' name='find' ng-model='query'>
+        </form>
+        <button ng-click='searchGoogle(query, latitude, longitude)'>Search</button>
+        <div ng-repeat='place in places'>
+          <h2>{{place.name}}</h2>
+          <h4>{{place.formatted_address}}</h4>
+          <!-- <img src={{place.icon}}> -->
+        </div>
       </div>
     </div>
   </body>
   <script src="config.js"></script>
   <script src='../node_modules/angular/angular.js'></script>
+  <script src='locationService.js'></script>
   <script src='googleServices.js'></script>
   <script src="controllers.js"></script>
   <script src='app.js'></script>

@@ -2,26 +2,16 @@
 
 angular.module('app.controllers', [])
 
-.controller('SearchCtrl', function($scope, GoogleSearch) {
+.controller('SearchCtrl', function($scope, Location, GoogleSearch) {
   $scope.query;
   $scope.places = [];
   $scope.latitude;
   $scope.longitude;
 
-  /* Get current location of client */
-  $scope.getLocation = function() {
-    
-    navigator.geolocation.getCurrentPosition(function(position) {
-      $scope.latitude = position.coords.latitude;
-      $scope.longitude = position.coords.longitude;
-      
-    });
-  };
-
   /* Use GoogleSearch service to query API for places */
   $scope.searchGoogle = function(query, latitude, longitude) {
     
-    GoogleSearch($scope.query, $scope.latitude, $scope.longitude)
+    GoogleSearch.search(query, latitude, longitude)
     
     .then(function(data) {
       $scope.places = data.results;
@@ -29,5 +19,9 @@ angular.module('app.controllers', [])
   };
 
   /* On load, get location of the client */
-  $scope.getLocation();
-});
+  Location.search().then(function(position) {
+    $scope.latitude = position.coords.latitude;
+    $scope.longitude = position.coords.longitude;  
+  });
+})
+
