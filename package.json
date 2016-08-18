@@ -1,8 +1,24 @@
 {
   "scripts": {
-    "start": ""
+    "test": "gulp karma",
+    "start": "python -m SimpleHTTPServer"
   },
+  "license": "UNLICENSED",
+  "private": true,
   "dependencies": {
-    "angular": "^1.5.3"
+    "angular": "^1.5.3",
+    "angular-mocks": "^1.5.8",
+    "chai": "^3.5.0",
+    "gulp": "^3.9.1",
+    "karma": "^1.2.0",
+    "karma-chai": "^0.1.0",
+    "karma-mocha": "^1.1.1",
+    "karma-nyan-reporter": "^0.2.4",
+    "karma-phantomjs-launcher": "^1.0.1",
+    "karma-sinon": "^1.0.5",
+    "karma-unicorn-reporter": "^0.1.4",
+    "mocha": "^3.0.2",
+    "sinon": "^1.17.5",
+    "sinon-chai": "^2.8.0"
   }
 }
