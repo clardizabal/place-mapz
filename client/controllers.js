@@ -8,6 +8,8 @@ angular.module('app.controllers', [])
   $scope.latitude;
   $scope.longitude;
 
+  $scope.markers = [];
+
   /* Use GoogleSearch service to query API for places */
   $scope.searchGoogle = function(query, latitude, longitude) {
     
@@ -16,6 +18,17 @@ angular.module('app.controllers', [])
     .then(function(data) {
       console.log(data.results);
       $scope.places = data.results;
+      /* Find lat and lng of each place and create a marker */
+      $scope.places.forEach(function(place, index) {
+
+        var marker = {
+          latitude: place.geometry.location.lat,
+          longitude: place.geometry.location.lng,
+          title: index + 1,
+          id: index + 1
+        };
+        $scope.markers.push(marker);
+      });
     });
   };
 
@@ -23,24 +36,13 @@ angular.module('app.controllers', [])
   Location.search().then(function(position) {
     $scope.latitude = position.coords.latitude;
     $scope.longitude = position.coords.longitude;
-    $scope.randomMarkers = [
-      {
-        latitude: $scope.latitude,
-        longitude: $scope.longitude,
-        title: 'hello world',
-        id: 1
-      }
-    ];
+
     $scope.map = {
-      markers:[{
-        latitude: $scope.latitude,
-        longitude: $scope.longitude
-      }],
       center: {
         latitude: $scope.latitude,
         longitude: $scope.longitude
       },
-      zoom: 14
+      zoom: 13,
     };
   });
 });
