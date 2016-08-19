@@ -22,6 +22,13 @@ angular.module('app.controllers', [])
   Location.search().then(function(position) {
     $scope.latitude = position.coords.latitude;
     $scope.longitude = position.coords.longitude;  
+    $scope.map = {
+      center: {
+        latitude: $scope.latitude,
+        longitude: $scope.longitude
+      },
+      zoom: 14
+    };
   });
-})
+});
 
