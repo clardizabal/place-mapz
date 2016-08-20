@@ -2,13 +2,20 @@
 
 angular.module('app.controllers', [])
 
-.controller('SearchCtrl', function($scope, Location, GoogleSearch) {
+.controller('SearchCtrl', function($scope, $mdDialog, Location, GoogleSearch) {
   $scope.query;
   $scope.places = [];
   $scope.latitude;
   $scope.longitude;
 
   $scope.markers = [];
+  $scope.options = {
+    styles: [
+      {
+        stylers: [{saturation: -100}]
+      }
+    ]
+  };
 
   /* Use GoogleSearch service to query API for places */
   $scope.searchGoogle = function(query, latitude, longitude) {
@@ -17,6 +24,7 @@ angular.module('app.controllers', [])
     
     .then(function(data) {
       $scope.places = data.results;
+
       /* Find lat and lng of each place and create a marker */
       $scope.places.forEach(function(place, index) {
 
@@ -27,6 +35,27 @@ angular.module('app.controllers', [])
           id: index + 1
         };
         $scope.markers.push(marker);
+      });
+    });
+  };
+
+  /* On click function to show more details */
+  $scope.showAdvanced = function(place, ev) {
+
+    GoogleSearch.details(place.place_id)
+
+    .then(function(data) {
+
+      $mdDialog.show({
+        controller: DialogController,
+        templateUrl: 'dialog.template.html',
+        parent: angular.element(document.body),
+        locals: {
+          data: data.result.website,
+        },
+        targetEvent: ev,
+        clickOutsideToClose:true,
+        fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
       });
     });
   };
@@ -44,5 +73,9 @@ angular.module('app.controllers', [])
       zoom: 13,
     };
   });
+
+  function DialogController($scope, $mdDialog, data) {
+    $scope.website = data;
+  }
 });
 

@@ -17,12 +17,28 @@ angular.module('app.googleServices', [])
         radius: RADIUS,
       },
     }).then(function(response) {
-      
+
       return response.data;
     });
   };
 
+  var details = function(placeid) {
+    return $http({
+      method: 'GET',
+      url: 'https://maps.googleapis.com/maps/api/place/details/json',
+      headers: {},
+      params: {
+        placeid: placeid,
+        key: GOOGLE_PLACES_API_KEY
+      }
+    }).then(function(response) {
+      
+      return response.data;
+    })
+  }
+
   return {
-    search: search
+    search: search,
+    details: details
   }
 });

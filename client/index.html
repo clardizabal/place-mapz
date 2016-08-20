@@ -39,8 +39,12 @@
     <div ng-app='app' ng-controller='SearchCtrl'> 
       <!-- MAP -->
       <div id="map_canvas">
-        <ui-gmap-google-map center="map.center" zoom="map.zoom">
-          <ui-gmap-markers models="markers" typeOptions="map.options.cluster" coords="'self'" icon="'icon'"></ui-gmap-markers>
+        <ui-gmap-google-map center="map.center" zoom="map.zoom" options="options">
+          <ui-gmap-markers
+            models="markers"
+            typeOptions="map.options.cluster"
+            coords="'self'"
+            icon="'icon'"></ui-gmap-markers>
         </ui-gmap-google-map>
       </div>
       <!-- SEARCH -->
@@ -49,13 +53,21 @@
           Find: <input type='text' name='find' ng-model='query'>
         </form>
         <button ng-click='searchGoogle(query, latitude, longitude)'>Search</button>
-        <div ng-repeat='place in places'>
-          <h2>{{$index + 1}}. {{place.name}}</h2>
-          <h4>{{place.formatted_address}}</h4>
-        </div>
+        <!-- LIST -->
+        <md-content>
+          <md-list flex="">
+            <md-list-item class="md-3-line" ng-repeat='place in places' ng-click='showAdvanced(place, $event)'>
+              <div class="md-list-item-text" layout="column">
+                <h2>{{$index + 1}}. {{place.name}}</h2>
+                <h4>{{place.formatted_address}}</h4>
+              </div>
+              <md-divider></md-divider>
+            </md-list-item>
+          </md-list>
+        </md-content>
+
       </div>
     </div>
-
 
     <!-- Angular Material requires Angular.js Libraries -->
       <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>

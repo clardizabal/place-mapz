@@ -1,2 +1,9 @@
 "use strict";
-angular.module('app', ['uiGmapgoogle-maps', 'app.locationService', 'app.googleServices', 'app.controllers']);
+angular.module('app', [
+  'ngMaterial',
+  'ngMessages',
+  'uiGmapgoogle-maps',
+  'app.locationService',
+  'app.googleServices',
+  'app.controllers'
+]);
