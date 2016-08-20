@@ -16,7 +16,6 @@ angular.module('app.controllers', [])
     GoogleSearch.search(query, latitude, longitude)
     
     .then(function(data) {
-      console.log(data.results);
       $scope.places = data.results;
       /* Find lat and lng of each place and create a marker */
       $scope.places.forEach(function(place, index) {

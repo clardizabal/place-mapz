@@ -2,8 +2,9 @@
 <html>
   <head>
     <title>Place-Mapz</title>
-    <!-- <script src='../node_modules/angular/angular.js'></script> -->
-    <script src="https://code.angularjs.org/1.3.14/angular.js"></script>
+    <!-- Angular Material style sheet -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
     <script src="http://rawgit.com/angular-ui/angular-google-maps/2.0.X/dist/angular-google-maps.js"></script>
     <script src="config.js"></script>
@@ -49,11 +50,22 @@
         </form>
         <button ng-click='searchGoogle(query, latitude, longitude)'>Search</button>
         <div ng-repeat='place in places'>
-          <h2>{{place.name}}</h2>
+          <h2>{{$index + 1}}. {{place.name}}</h2>
           <h4>{{place.formatted_address}}</h4>
-          <!-- <img src={{place.icon}}> -->
         </div>
       </div>
     </div>
+
+
+    <!-- Angular Material requires Angular.js Libraries -->
+      <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+
+      <!-- Angular Material Library -->
+      <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+      
+      <!-- Your application bootstrap  -->
+      <script type="text/javascript"> 
   </body>
 </html>
