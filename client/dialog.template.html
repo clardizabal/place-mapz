@@ -9,15 +9,16 @@
 
     <md-dialog-content>
       <div class="md-dialog-content">
-        <h2>Rating: {{data.rating || 'N/A'}}</h2>
-        <h2>Address: {{data.vicinity}}</h2>
-        <h2>Phone: {{data.formatted_phone_number}}</h2>
-        <h3><u>Hours</u></h3>
+        <p>Rating: {{data.rating || 'N/A'}}</p>
+        <p>Address: {{data.vicinity}}</p>
+        <p>Phone: {{data.formatted_phone_number}}</p>
+        <p>Hours: {{hours}} {{status}}</p>
+        <!-- <h3><u>Hours</u></h3>
         <div ng-repeat="hours in data.opening_hours.weekday_text">
           <p>
             {{hours}}
           </p>
-        </div>
+        </div> -->
         <img style="margin: auto; max-width: 100%;" alt={{data.name}} src={{image}}>
       </div>
     </md-dialog-content>

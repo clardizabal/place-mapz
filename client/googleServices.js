@@ -39,13 +39,19 @@ angular.module('app.googleServices', [])
   }
 
   var photos = function(photoreference) {
-  
+
     return 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=' + photoreference + '&key=' + GOOGLE_PLACES_API_KEY;
+  }
+
+  var today = function() {
+    var day = new Date();
+    return day.getDay() ? day.getDay() - 1 : 6; 
   }
 
   return {
     search: search,
     details: details,
-    photos: photos
+    photos: photos,
+    today: today
   }
 });

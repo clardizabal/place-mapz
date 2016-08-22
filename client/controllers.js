@@ -50,7 +50,8 @@ angular.module('app.controllers', [])
       from Google API, otherwise use icon*/
       var image = data.result.photos ?
         GoogleSearch.photos(data.result.photos[0].photo_reference) : data.result.icon;
-
+      console.log(data);
+      // console.log(image);
       /* Show pop-up dialog*/
       $mdDialog.show({
         controller: DialogController,
@@ -67,6 +68,16 @@ angular.module('app.controllers', [])
     });
   };
 
+  function DialogController($scope, $mdDialog, data, image) {
+    $scope.data = data;
+    $scope.image = image;
+    /* Some places don't have opening hours available */
+    $scope.hours = data.opening_hours ?
+      data.opening_hours.weekday_text[GoogleSearch.today()] : 'N/A';
+    $scope.status = data.opening_hours ? (data.opening_hours.open_now ? 'OPEN' : 'CLOSED') : '';
+    console.log($scope.status);
+  }
+
   /* On load, get location of the client */
   Location.search().then(function(position) {
     $scope.latitude = position.coords.latitude;
@@ -81,9 +92,5 @@ angular.module('app.controllers', [])
     };
   });
 
-  function DialogController($scope, $mdDialog, data, image) {
-    $scope.data = data;
-    $scope.image = image;
-  }
 });
 
