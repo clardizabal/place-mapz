@@ -46,12 +46,14 @@ angular.module('app.controllers', [])
 
     .then(function(data) {
 
+      console.log(data);
+
       $mdDialog.show({
         controller: DialogController,
         templateUrl: 'dialog.template.html',
         parent: angular.element(document.body),
         locals: {
-          data: data.result.website,
+          data: data.result,
         },
         targetEvent: ev,
         clickOutsideToClose:true,
@@ -75,7 +77,7 @@ angular.module('app.controllers', [])
   });
 
   function DialogController($scope, $mdDialog, data) {
-    $scope.website = data;
+    $scope.data = data;
   }
 });
 

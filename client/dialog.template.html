@@ -1,33 +1,30 @@
-<md-dialog aria-label="Mango (Fruit)">
+<md-dialog aria-label={{data.name}}>
   <form ng-cloak>
     <md-toolbar>
       <div class="md-toolbar-tools">
-        <h2>{{website}}</h2>
+        <h2>{{data.name}}</h2>
         <span flex></span>
       </div>
     </md-toolbar>
 
     <md-dialog-content>
       <div class="md-dialog-content">
-        <h2>{{website}}</h2>
-        <p>
-          {{website}}
-        </p>
-
+        <h2>Rating: {{data.rating || 'N/A'}}</h2>
+        <h2>Address: {{data.vicinity}}</h2>
+        <h2>Phone: {{data.formatted_phone_number}}</h2>
+        <h3><u>Hours</u></h3>
+        <div ng-repeat="hours in data.opening_hours.weekday_text">
+          <p>
+            {{hours}}
+          </p>
+        </div>
         <!-- <img style="margin: auto; max-width: 100%;" alt="Lush mango tree" src="img/mangues.jpg"> -->
-
-        <p>
-          {{website}}
-        </p>
-        <p>
-          {{website}}
-        </p>
       </div>
     </md-dialog-content>
 
     <md-dialog-actions layout="row">
-      <md-button href={{website}} target="_blank" md-autofocus>
-        More on Wikipedia
+      <md-button href={{data.website}} target="_blank" md-autofocus>
+        Website
       </md-button>
       <span flex></span>
     </md-dialog-actions>
