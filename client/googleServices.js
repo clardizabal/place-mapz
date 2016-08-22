@@ -23,6 +23,7 @@ angular.module('app.googleServices', [])
   };
 
   var details = function(placeid) {
+    
     return $http({
       method: 'GET',
       url: 'https://maps.googleapis.com/maps/api/place/details/json',
@@ -32,13 +33,19 @@ angular.module('app.googleServices', [])
         key: GOOGLE_PLACES_API_KEY
       }
     }).then(function(response) {
-      
+
       return response.data;
     })
   }
 
+  var photos = function(photoreference) {
+  
+    return 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=' + photoreference + '&key=' + GOOGLE_PLACES_API_KEY;
+  }
+
   return {
     search: search,
-    details: details
+    details: details,
+    photos: photos
   }
 });

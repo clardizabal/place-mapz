@@ -46,14 +46,19 @@ angular.module('app.controllers', [])
 
     .then(function(data) {
 
-      console.log(data);
+      /* Some places don't have any photos. If place has photos, use photo_reference to get photo
+      from Google API, otherwise use icon*/
+      var image = data.result.photos ?
+        GoogleSearch.photos(data.result.photos[0].photo_reference) : data.result.icon;
 
+      /* Show pop-up dialog*/
       $mdDialog.show({
         controller: DialogController,
         templateUrl: 'dialog.template.html',
         parent: angular.element(document.body),
         locals: {
           data: data.result,
+          image: image
         },
         targetEvent: ev,
         clickOutsideToClose:true,
@@ -76,8 +81,9 @@ angular.module('app.controllers', [])
     };
   });
 
-  function DialogController($scope, $mdDialog, data) {
+  function DialogController($scope, $mdDialog, data, image) {
     $scope.data = data;
+    $scope.image = image;
   }
 });
 
