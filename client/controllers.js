@@ -25,10 +25,12 @@ angular.module('app.controllers', [])
     
     .then(function(data) {
       $scope.places = data.results;
+      $scope.markers = [];
 
       /* Remove extra query results from places array */
       $scope.places.splice(resultsLimit, GOOGLE_QUERY_RESULTS - resultsLimit);
-      /* zIndex property added to scope for mouseover event */
+      /* zIndex starts off with vale == number of results and is decremented to
+      send next marker behind the other */
       $scope.zIndex = resultsLimit;
 
       /* Find lat and lng of each place and create a marker to be added to map */
@@ -54,13 +56,12 @@ angular.module('app.controllers', [])
     });
   };
 
-  /* EVENT HANDLER FOR CLICK ON SEARCH RESULTS */  
-  $scope.showAdvanced = showAdvanced;
 
-  /* EVENT HANDLER FOR MARKERS */
-  $scope.eventsObject = {
-        mouseover: markerMouseOver,
-  };
+  $scope.showAdvanced = showAdvanced;
+  
+  // $scope.eventsObject = {
+  //       mouseover: markerMouseOver,
+  // };
 
   /* On load, get location of the client */
   Location.search().then(function(position) {
@@ -78,10 +79,9 @@ angular.module('app.controllers', [])
 
 
   /* Bring marker to fron by setting zIndex to highest value */
-  function markerMouseOver(marker, e, m) {
-      $scope.zIndex = ++resultsLimit;
-      m.options.zIndex = $scope.zIndex;
-  }
+  // function markerMouseOver(marker, e, m) {
+  //   m.options.zIndex = $scope.zIndex++;
+  // }
 
   /* On click function to show more details */
   function showAdvanced(place, ev) {
@@ -95,7 +95,6 @@ angular.module('app.controllers', [])
       var image = data.result.photos ?
         GoogleSearch.photos(data.result.photos[0].photo_reference) : data.result.icon;
       console.log(data);
-      // console.log(image);
       /* Show pop-up dialog*/
       $mdDialog.show({
         controller: DialogController,
