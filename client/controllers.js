@@ -6,6 +6,7 @@ angular.module('app.controllers', [])
   $scope.query;
   $scope.places = [];
   $scope.markers = [];
+  // $scope.photos = [];
   $scope.latitude;
   $scope.longitude;
 
@@ -58,7 +59,7 @@ angular.module('app.controllers', [])
 
 
   $scope.showAdvanced = showAdvanced;
-  
+
   // $scope.eventsObject = {
   //       mouseover: markerMouseOver,
   // };
@@ -89,12 +90,27 @@ angular.module('app.controllers', [])
     GoogleSearch.details(place.place_id)
 
     .then(function(data) {
-
+      // $scope.photos = [];
       /* Some places don't have any photos. If place has photos, use photo_reference to get photo
-      from Google API, otherwise use icon*/
-      var image = data.result.photos ?
-        GoogleSearch.photos(data.result.photos[0].photo_reference) : data.result.icon;
-      console.log(data);
+      from Google API, otherwise use icon */
+
+      // if (data.result.photos) {
+      //   $scope.photos = data.result.photos.map(function(photo) {
+      //     return GoogleSearch.photos(photo.photo_reference);  
+      //   });
+      // } else {
+      //   $scope.photos = [data.result.icon];
+      // }
+
+      var photos = data.result.photos ?
+        data.result.photos.map(function(photo) {
+          return GoogleSearch.photos(photo.photo_reference);
+        }) : [data.result.icon];
+
+      // console.log(photos);
+      // var image = data.result.photos ?
+        // GoogleSearch.photos(data.result.photos[0].photo_reference) : data.result.icon;
+      // console.log(data);
       /* Show pop-up dialog*/
       $mdDialog.show({
         controller: DialogController,
@@ -102,7 +118,7 @@ angular.module('app.controllers', [])
         parent: angular.element(document.body),
         locals: {
           data: data.result,
-          image: image
+          photos: photos
         },
         targetEvent: ev,
         clickOutsideToClose:true,
@@ -111,14 +127,15 @@ angular.module('app.controllers', [])
     });
   };
 
-  function DialogController($scope, $mdDialog, data, image) {
+  function DialogController($scope, $mdDialog, data, photos) {
     $scope.data = data;
-    $scope.image = image;
+    $scope.image = photos[0];
+    $scope.photos = photos;
+    console.log($scope.photos);
     /* Some places don't have opening hours available */
     $scope.hours = data.opening_hours ?
       data.opening_hours.weekday_text[GoogleSearch.today()] : 'N/A';
     $scope.status = data.opening_hours ? (data.opening_hours.open_now ? 'OPEN' : 'CLOSED') : '';
-    console.log($scope.status);
   }
 });
 
