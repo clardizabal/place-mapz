@@ -15,7 +15,7 @@
         <p>Hours: {{hours}} {{status}}</p>
         <!-- <img style="margin: auto; max-width: 100%;" alt={{data.name}} src={{image}}> -->
         <div ng-repeat="photo in photos">
-          <img style="margin: auto; max-width: 100%;" alt={{data.name}} src={{photo}}>
+          <img style="margin: auto; max-width: 100%;" alt={{data.name}} ng-src={{photo}}>
         </div>
       </div>
     </md-dialog-content>

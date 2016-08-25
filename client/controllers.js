@@ -131,7 +131,6 @@ angular.module('app.controllers', [])
     $scope.data = data;
     $scope.image = photos[0];
     $scope.photos = photos;
-    console.log($scope.photos);
     /* Some places don't have opening hours available */
     $scope.hours = data.opening_hours ?
       data.opening_hours.weekday_text[GoogleSearch.today()] : 'N/A';
