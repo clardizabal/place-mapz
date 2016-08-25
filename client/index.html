@@ -7,11 +7,6 @@
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
     <script src="http://rawgit.com/angular-ui/angular-google-maps/2.0.X/dist/angular-google-maps.js"></script>
-    <script src="config.js"></script>
-    <script src='locationService.js'></script>
-    <script src='googleServices.js'></script>
-    <script src="controllers.js"></script>
-    <script src='app.js'></script>
     <style type="text/css">
         #map_canvas {
           height: 400px;
@@ -35,39 +30,72 @@
     </style>
   </head>
   <body>
-    <h1>Place Mapz</h1>
-    <div ng-app='app' ng-controller='SearchCtrl'> 
-      <!-- MAP -->
-      <div id="map_canvas">
-        <ui-gmap-google-map center="map.center" zoom="map.zoom" options="options">
-          <ui-gmap-markers
-            models="markers"
-            coords="'self'"
-            options="'options'"
-            fit="true"></ui-gmap-markers>  
-        </ui-gmap-google-map>
-      </div>
-      <!-- SEARCH -->
-      <div id="search_query">
-        <form>
-          Find: <input type='text' name='find' ng-model='query'>
-        </form>
-        <button ng-click='searchGoogle(query, latitude, longitude)'>Search</button>
-        <!-- LIST -->
-        <md-content>
-          <md-list flex="">
-            <md-list-item class="md-3-line" ng-repeat='place in places' ng-click='showAdvanced(place, $event)'>
-              <div class="md-list-item-text" layout="column">
-                <h2>{{place.label}}. {{place.name}}</h2>
-                <h4>{{place.formatted_address}}</h4>
-              </div>
-              <md-divider></md-divider>
-            </md-list-item>
-          </md-list>
-        </md-content>
 
-      </div>
+
+
+    <div ng-app='app' ng-controller='SearchCtrl' layout="column" ng-cloak=""> 
+      
+      <!-- HEADER -->
+      <md-toolbar md-scroll-shrink="" ng-if="true">
+        <div class="md-toolbar-tools">
+          <h3>
+            <span>PlaceMapz</span>
+          </h3>
+        </div>
+      </md-toolbar>
+      
+      <md-content flex="">
+        <!-- MAP -->
+        <div id="map_canvas">
+          <ui-gmap-google-map center="map.center" zoom="map.zoom" options="options">
+            <ui-gmap-markers
+              models="markers"
+              coords="'self'"
+              options="'options'"
+              fit="true"></ui-gmap-markers>  
+          </ui-gmap-google-map>
+        </div>
+
+        <!-- SEARCH INPUT -->
+        <form name="myForm">
+
+          <div layout="row" layout-align="center" flex="">
+            <md-input-container flex="50">
+              <label>What are you looking for?</label>
+              <input type="text" name="query" ng-model="query" required="">
+            </md-input-container>
+            <md-button ng-click="searchGoogle(query, latitude, longitude)" ng-disabled="!(query)">
+              Find!
+            </md-button>
+          </div>
+
+          <div layout="row" layout-align="center" flex="">
+            <p>
+              Nice little blurb...
+            </p>
+          </div>
+
+          
+        </form>
+
+        <!-- QUERY RESULTS -->
+        <md-list flex="">
+          <md-list-item class="md-3-line" ng-repeat='place in places' ng-click='showAdvanced(place, $event)'>
+            <div class="md-list-item-text" layout="column">
+              <h2>{{place.label}}. {{place.name}}</h2>
+              <h4>{{place.formatted_address}}</h4>
+            </div>
+            <md-divider></md-divider>
+          </md-list-item>
+        </md-list>
+
+      </md-content>
     </div>
+    <script src="config.js"></script>
+    <script src='locationService.js'></script>
+    <script src='googleServices.js'></script>
+    <script src="controllers.js"></script>
+    <script src='app.js'></script>
 
     <!-- Angular Material requires Angular.js Libraries -->
       <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
