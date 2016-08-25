@@ -4,14 +4,20 @@
     <title>Place-Mapz</title>
     <!-- Angular Material style sheet -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
     <script src="http://rawgit.com/angular-ui/angular-google-maps/2.0.X/dist/angular-google-maps.js"></script>
     <style type="text/css">
+        body {
+          font-family: 'Roboto', sans-serif;
+        }
+
         #map_canvas {
           height: 400px;
           width: 100%;
           margin: 0px;
+          border-bottom: 1px solid #E88420;
           position: relative;
         }
 
@@ -27,6 +33,23 @@
             right: 0;
             left: 0;
         }
+
+        .box {
+            border-radius: 10px;
+            /*background: #E88420;*/
+            border: 1px solid #E88420;
+            margin: 10px;
+            padding: 10px;
+            /*width: 200px;*/
+            height: 150px;
+        }
+
+        .md-toolbar-tools {
+          color: #797979;
+          background-color: white;
+          font-weight: bold;
+          border-bottom: 1px solid #E88420;
+        }
     </style>
   </head>
   <body>
@@ -39,7 +62,7 @@
       <md-toolbar md-scroll-shrink="" ng-if="true">
         <div class="md-toolbar-tools">
           <h3>
-            <span>PlaceMapz</span>
+            <span>P l a c e M a p z</span>
           </h3>
         </div>
       </md-toolbar>
@@ -60,37 +83,42 @@
         <form name="myForm">
 
           <div layout="row" layout-align="center" flex="">
-            <md-input-container flex="50">
+            <md-input-container flex="50" layout="row" layout-align="center">
               <label>What are you looking for?</label>
               <input type="text" name="query" ng-model="query" required="">
             </md-input-container>
-            <md-button ng-click="searchGoogle(query, latitude, longitude)" ng-disabled="!(query)">
+            <!-- <md-button ng-click="searchGoogle(query, latitude, longitude)" ng-disabled="!(query)">
               Find!
-            </md-button>
+            </md-button> -->
           </div>
 
           <div layout="row" layout-align="center" flex="">
-            <p>
+            <md-button ng-click="searchGoogle(query, latitude, longitude)" ng-disabled="!(query)">
+              Find!
+            </md-button>
+            <!-- <p>
               Nice little blurb...
-            </p>
+            </p> -->
           </div>
-
           
         </form>
 
         <!-- QUERY RESULTS -->
         <md-list flex="">
-          <md-list-item class="md-3-line" ng-repeat='place in places' ng-click='showAdvanced(place, $event)'>
+          <md-list-item class="md-3-line box" ng-repeat='place in places' ng-click='showAdvanced(place, $event)'>
             <div class="md-list-item-text" layout="column">
               <h2>{{place.label}}. {{place.name}}</h2>
               <h4>{{place.formatted_address}}</h4>
             </div>
-            <md-divider></md-divider>
+            <!-- <md-divider></md-divider> -->
           </md-list-item>
         </md-list>
 
       </md-content>
     </div>
+
+
+    <!-- JS -->
     <script src="config.js"></script>
     <script src='locationService.js'></script>
     <script src='googleServices.js'></script>
@@ -98,14 +126,12 @@
     <script src='app.js'></script>
 
     <!-- Angular Material requires Angular.js Libraries -->
-      <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
-      <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
-      <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
 
-      <!-- Angular Material Library -->
-      <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
-      
-      <!-- Your application bootstrap  -->
-      <script type="text/javascript"> 
+    <!-- Angular Material Library -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+    
   </body>
 </html>

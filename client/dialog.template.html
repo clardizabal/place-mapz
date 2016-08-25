@@ -13,6 +13,7 @@
         <p>Address: {{data.vicinity}}</p>
         <p>Phone: {{data.formatted_phone_number}}</p>
         <p>Hours: {{hours}} {{status}}</p>
+        <!-- Show only one image -->
         <!-- <img style="margin: auto; max-width: 100%;" alt={{data.name}} src={{image}}> -->
         <div ng-repeat="photo in photos">
           <img style="margin: auto; max-width: 100%;" alt={{data.name}} ng-src={{photo}}>

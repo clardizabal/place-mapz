@@ -6,4 +6,9 @@ angular.module('app', [
   'app.locationService',
   'app.googleServices',
   'app.controllers'
-]);
+])
+.config(function($mdThemingProvider) {
+  $mdThemingProvider.theme('default')
+    .primaryPalette('orange')
+    .accentPalette('pink');
+});
