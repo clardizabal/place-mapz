@@ -16,9 +16,17 @@
         #map_canvas {
           height: 400px;
           width: 100%;
+          display: table;
           margin: 0px;
           border-bottom: 1px solid #E88420;
           position: relative;
+        }
+
+        #map_canvas p {
+          text-align:center;
+          vertical-align: middle;
+          display: table-cell;
+          color: #797979;
         }
 
         #search_query {
@@ -70,6 +78,9 @@
       <md-content flex="">
         <!-- MAP -->
         <div id="map_canvas">
+          <p>
+            PlaceMapz helps you find whatever you're looking for near you
+          </p>
           <ui-gmap-google-map center="map.center" zoom="map.zoom" options="options">
             <ui-gmap-markers
               models="markers"
@@ -87,24 +98,18 @@
               <label>What are you looking for?</label>
               <input type="text" name="query" ng-model="query" required="">
             </md-input-container>
-            <!-- <md-button ng-click="searchGoogle(query, latitude, longitude)" ng-disabled="!(query)">
-              Find!
-            </md-button> -->
           </div>
 
           <div layout="row" layout-align="center" flex="">
             <md-button ng-click="searchGoogle(query, latitude, longitude)" ng-disabled="!(query)">
               Find!
             </md-button>
-            <!-- <p>
-              Nice little blurb...
-            </p> -->
           </div>
           
         </form>
 
         <!-- QUERY RESULTS -->
-        <md-list flex="40" layout-align-md="center" class='center-col'>
+        <md-list flex="40" class='center-col'>
           <md-list-item class="md-3-line box" ng-repeat='place in places' ng-click='showAdvanced(place, $event)'>
             <div class="md-list-item-text" layout="column">
               <p>{{place.label}}.  <u>{{place.name}}</u></p>
