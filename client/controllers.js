@@ -2,7 +2,7 @@
 
 angular.module('app.controllers', [])
 
-.controller('SearchCtrl', function($scope, $mdDialog, Location, GoogleSearch) {
+.controller('SearchCtrl', function($scope, $window, $mdDialog, $anchorScroll, Location, GoogleSearch) {
   $scope.query;
   $scope.places = [];
   $scope.markers = [];
@@ -20,6 +20,9 @@ angular.module('app.controllers', [])
 
   /* Use GoogleSearch service to query API for places */
   $scope.searchGoogle = function(query, latitude, longitude) {
+    $anchorScroll();
+    latitude = latitude || $scope.latitude;
+    longitude = longitude || $scope.longitude;
     
     GoogleSearch.search(query, latitude, longitude)
     
@@ -29,7 +32,7 @@ angular.module('app.controllers', [])
 
       /* Remove extra query results from places array */
       $scope.places.splice(resultsLimit, GOOGLE_QUERY_RESULTS - resultsLimit);
-      /* zIndex starts off with vale == number of results and is decremented to
+      /* zIndex starts off with value == number of results and is decremented to
       send next marker behind the other */
       $scope.zIndex = resultsLimit;
 
@@ -37,21 +40,26 @@ angular.module('app.controllers', [])
       $scope.places.forEach(function(place, index) {
         /* Assign place with a label that associates with map */
         $scope.places[index].label = letters.charAt(index);
-        var marker = {
-          latitude: place.geometry.location.lat,
-          longitude: place.geometry.location.lng,
-          id: index,
-          options: {
-            zIndex: $scope.zIndex--,
-            label: {
-              text: $scope.places[index].label,
-              color: 'white',
-              fontSize: '18px',
-              fontWeight: 'bold'
+        /* Some places are giving incorrect lat and lng in the middle of the ocean! */
+        if (!!place.geometry.location.lat && !!place.geometry.location.lng) {
+          var marker = {
+            latitude: place.geometry.location.lat,
+            longitude: place.geometry.location.lng,
+            id: index,
+            options: {
+              zIndex: $scope.zIndex--,
+              label: {
+                text: $scope.places[index].label,
+                color: 'white',
+                fontSize: '18px',
+                fontWeight: 'bold'
+              }
             }
-          }
-        };
-        $scope.markers.push(marker);
+          };
+          $scope.markers.push(marker);
+        } else {
+          console.log('something funnny will happen to the map: ', letters.charAt(index));
+        }
       });
     });
   };
@@ -90,7 +98,13 @@ angular.module('app.controllers', [])
     GoogleSearch.details(place.place_id)
 
     .then(function(data) {
+      /* Create a string from the types result to find similar places */
+      // var types = data.result.types.reduce(function(sum, type) {
+      //   return sum += type + " ";
+      // },'');
       console.log(data);
+      var types = data.result.types[0];
+
       /* Some places don't have any photos. If place has photos, use photo_reference to get photo
       from Google API, otherwise use icon */
       var photos = data.result.photos ?
@@ -105,7 +119,9 @@ angular.module('app.controllers', [])
         parent: angular.element(document.body),
         locals: {
           data: data.result,
-          photos: photos
+          photos: photos,
+          searchGoogle: $scope.searchGoogle,
+          types: types
         },
         targetEvent: ev,
         clickOutsideToClose: true,
@@ -114,7 +130,7 @@ angular.module('app.controllers', [])
     });
   };
 
-  function DialogController($scope, $mdDialog, data, photos) {
+  function DialogController($scope, $mdDialog, data, photos, searchGoogle, types) {
     $scope.data = data;
     $scope.image = photos[0];
     $scope.photos = photos;
@@ -122,6 +138,10 @@ angular.module('app.controllers', [])
     $scope.hours = data.opening_hours ?
       data.opening_hours.weekday_text[GoogleSearch.today()] : 'N/A';
     $scope.status = data.opening_hours ? (data.opening_hours.open_now ? 'OPEN' : 'CLOSED') : '';
+    $scope.findSimilar = function() {
+      $mdDialog.hide();
+      searchGoogle(types, $scope.latitude, $scope.longitude);
+    }
   }
 });
 
