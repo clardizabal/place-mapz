@@ -36,7 +36,7 @@ angular.module('app.controllers', [])
       /* Find lat and lng of each place and create a marker to be added to map */
       $scope.places.forEach(function(place, index) {
         /* Assign place with a label that associates with map */
-        $scope.places[index].label = '{' + letters.charAt(index) + '}';
+        $scope.places[index].label = letters.charAt(index);
         var marker = {
           latitude: place.geometry.location.lat,
           longitude: place.geometry.location.lng,

@@ -108,7 +108,7 @@
         <md-list flex="40" layout-align-md="center" class='center-col'>
           <md-list-item class="md-3-line box" ng-repeat='place in places' ng-click='showAdvanced(place, $event)'>
             <div class="md-list-item-text" layout="column">
-              <p>{{place.label}} {{place.name}}</p>
+              <p>{{place.label}}.  <u>{{place.name}}</u></p>
               <p>{{place.formatted_address}}</p>
             </div>
             <!-- <md-divider></md-divider> -->
