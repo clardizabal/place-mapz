@@ -6,7 +6,6 @@ angular.module('app.controllers', [])
   $scope.query;
   $scope.places = [];
   $scope.markers = [];
-  // $scope.photos = [];
   $scope.latitude;
   $scope.longitude;
 
@@ -37,11 +36,11 @@ angular.module('app.controllers', [])
       /* Find lat and lng of each place and create a marker to be added to map */
       $scope.places.forEach(function(place, index) {
         /* Assign place with a label that associates with map */
-        $scope.places[index].label = letters.charAt(index);
+        $scope.places[index].label = '{' + letters.charAt(index) + '}';
         var marker = {
           latitude: place.geometry.location.lat,
           longitude: place.geometry.location.lng,
-          id: index + 1,
+          id: index,
           options: {
             zIndex: $scope.zIndex--,
             label: {
@@ -79,7 +78,8 @@ angular.module('app.controllers', [])
   });
 
 
-  /* Bring marker to fron by setting zIndex to highest value */
+  /* Bring marker to fron by setting zIndex to highest value
+     BUG occurs with markers with after first search */
   // function markerMouseOver(marker, e, m) {
   //   m.options.zIndex = $scope.zIndex++;
   // }
@@ -90,27 +90,14 @@ angular.module('app.controllers', [])
     GoogleSearch.details(place.place_id)
 
     .then(function(data) {
-      // $scope.photos = [];
+      console.log(data);
       /* Some places don't have any photos. If place has photos, use photo_reference to get photo
       from Google API, otherwise use icon */
-
-      // if (data.result.photos) {
-      //   $scope.photos = data.result.photos.map(function(photo) {
-      //     return GoogleSearch.photos(photo.photo_reference);  
-      //   });
-      // } else {
-      //   $scope.photos = [data.result.icon];
-      // }
-
       var photos = data.result.photos ?
         data.result.photos.map(function(photo) {
           return GoogleSearch.photos(photo.photo_reference);
         }) : [data.result.icon];
 
-      // console.log(photos);
-      // var image = data.result.photos ?
-        // GoogleSearch.photos(data.result.photos[0].photo_reference) : data.result.icon;
-      // console.log(data);
       /* Show pop-up dialog*/
       $mdDialog.show({
         controller: DialogController,
@@ -121,7 +108,7 @@ angular.module('app.controllers', [])
           photos: photos
         },
         targetEvent: ev,
-        clickOutsideToClose:true,
+        clickOutsideToClose: true,
         fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
       });
     });

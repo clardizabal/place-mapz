@@ -36,12 +36,10 @@
 
         .box {
             border-radius: 10px;
-            /*background: #E88420;*/
             border: 1px solid #E88420;
             margin: 10px;
             padding: 10px;
-            /*width: 200px;*/
-            height: 150px;
+            height: 100px;
         }
 
         .md-toolbar-tools {
@@ -49,6 +47,9 @@
           background-color: white;
           font-weight: bold;
           border-bottom: 1px solid #E88420;
+        }
+        .center-col {
+          margin: auto;
         }
     </style>
   </head>
@@ -83,7 +84,7 @@
         <form name="myForm">
 
           <div layout="row" layout-align="center" flex="">
-            <md-input-container flex="50" layout="row" layout-align="center">
+            <md-input-container flex="20" layout="row" layout-align="center">
               <label>What are you looking for?</label>
               <input type="text" name="query" ng-model="query" required="">
             </md-input-container>
@@ -104,11 +105,11 @@
         </form>
 
         <!-- QUERY RESULTS -->
-        <md-list flex="">
+        <md-list flex="40" layout-align-md="center" class='center-col'>
           <md-list-item class="md-3-line box" ng-repeat='place in places' ng-click='showAdvanced(place, $event)'>
             <div class="md-list-item-text" layout="column">
-              <h2>{{place.label}}. {{place.name}}</h2>
-              <h4>{{place.formatted_address}}</h4>
+              <p>{{place.label}} {{place.name}}</p>
+              <p>{{place.formatted_address}}</p>
             </div>
             <!-- <md-divider></md-divider> -->
           </md-list-item>
