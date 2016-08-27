@@ -20,50 +20,55 @@ angular.module('app.controllers', [])
 
   /* Use GoogleSearch service to query API for places */
   $scope.searchGoogle = function(query, latitude, longitude) {
-    $anchorScroll();
     latitude = latitude || $scope.latitude;
     longitude = longitude || $scope.longitude;
     
     GoogleSearch.search(query, latitude, longitude)
     
     .then(function(data) {
+      /* Scroll back to top of page with every new search */
+      $window.scrollTo(0,0);
       $scope.places = data.results;
       $scope.markers = [];
+      if ($scope.places.length > 0) {
+        /* Remove extra query results from places array */
+        $scope.places.splice(resultsLimit, GOOGLE_QUERY_RESULTS - resultsLimit);
+        /* zIndex starts off with value == number of results and is decremented to
+        send next marker behind the other */
+        $scope.zIndex = resultsLimit;
 
-      /* Remove extra query results from places array */
-      $scope.places.splice(resultsLimit, GOOGLE_QUERY_RESULTS - resultsLimit);
-      /* zIndex starts off with value == number of results and is decremented to
-      send next marker behind the other */
-      $scope.zIndex = resultsLimit;
-
-      /* Find lat and lng of each place and create a marker to be added to map */
-      $scope.places.forEach(function(place, index) {
-        /* Assign place with a label that associates with map */
-        $scope.places[index].label = letters.charAt(index);
-        /* Some places are giving incorrect lat and lng in the middle of the ocean! */
-        if (!!place.geometry.location.lat && !!place.geometry.location.lng) {
-          var marker = {
-            latitude: place.geometry.location.lat,
-            longitude: place.geometry.location.lng,
-            id: index,
-            options: {
-              zIndex: $scope.zIndex--,
-              label: {
-                text: $scope.places[index].label,
-                color: 'white',
-                fontSize: '18px',
-                fontWeight: 'bold'
+        /* Find lat and lng of each place and create a marker to be added to map */
+        $scope.places.forEach(function(place, index) {
+          /* Assign place with a label that associates with map */
+          $scope.places[index].label = letters.charAt(index);
+          /* Some places are giving incorrect lat and lng in the middle of the ocean! */
+          if (!!place.geometry.location.lat && !!place.geometry.location.lng) {
+            var marker = {
+              latitude: place.geometry.location.lat,
+              longitude: place.geometry.location.lng,
+              id: index,
+              options: {
+                zIndex: $scope.zIndex--,
+                label: {
+                  text: $scope.places[index].label,
+                  color: 'white',
+                  fontSize: '18px',
+                  fontWeight: 'bold'
+                }
               }
-            }
-          };
-          $scope.markers.push(marker);
-        } else {
-          console.log('something funnny will happen to the map: ', letters.charAt(index));
-        }
-      });
+            };
+            $scope.markers.push(marker);
+          } else {
+            console.log('something funnny will happen to the map: ', letters.charAt(index));
+          }
+        });
+      } else {
+        showAlert();
+        centerMap();
+      }
+
     });
   };
-
 
   $scope.showAdvanced = showAdvanced;
 
@@ -75,7 +80,15 @@ angular.module('app.controllers', [])
   Location.search().then(function(position) {
     $scope.latitude = position.coords.latitude;
     $scope.longitude = position.coords.longitude;
-    
+    centerMap();
+  });
+
+  /* Bring marker to fron by setting zIndex to highest value.
+     BUG occurs with markers with after first search */
+  // function markerMouseOver(marker, e, m) {
+  //   m.options.zIndex = $scope.zIndex++;
+  // }
+  function centerMap() {
     $scope.map = {
       center: {
         latitude: $scope.latitude,
@@ -83,14 +96,7 @@ angular.module('app.controllers', [])
       },
       zoom: 13,
     };
-  });
-
-
-  /* Bring marker to fron by setting zIndex to highest value
-     BUG occurs with markers with after first search */
-  // function markerMouseOver(marker, e, m) {
-  //   m.options.zIndex = $scope.zIndex++;
-  // }
+  }
 
   /* On click function to show more details */
   function showAdvanced(place, ev) {
@@ -103,7 +109,7 @@ angular.module('app.controllers', [])
       //   return sum += type + " ";
       // },'');
       console.log(data);
-      var types = data.result.types[0];
+      var type = data.result.types[0];
 
       /* Some places don't have any photos. If place has photos, use photo_reference to get photo
       from Google API, otherwise use icon */
@@ -121,7 +127,7 @@ angular.module('app.controllers', [])
           data: data.result,
           photos: photos,
           searchGoogle: $scope.searchGoogle,
-          types: types
+          type: type
         },
         targetEvent: ev,
         clickOutsideToClose: true,
@@ -130,7 +136,7 @@ angular.module('app.controllers', [])
     });
   };
 
-  function DialogController($scope, $mdDialog, data, photos, searchGoogle, types) {
+  function DialogController($scope, $mdDialog, data, photos, searchGoogle, type) {
     $scope.data = data;
     $scope.image = photos[0];
     $scope.photos = photos;
@@ -140,8 +146,19 @@ angular.module('app.controllers', [])
     $scope.status = data.opening_hours ? (data.opening_hours.open_now ? 'OPEN' : 'CLOSED') : '';
     $scope.findSimilar = function() {
       $mdDialog.hide();
-      searchGoogle(types, $scope.latitude, $scope.longitude);
+      searchGoogle(type, $scope.latitude, $scope.longitude);
     }
+  }
+
+  function showAlert() {
+    $mdDialog.show(
+      $mdDialog.alert()
+        .parent(angular.element(document.querySelector('#conentContainer')))
+        .clickOutsideToClose(true)
+        .title('P l a c e M a p z')
+        .textContent('Sorry, no results found')
+        .ok('Got it!')
+    );
   }
 });
 

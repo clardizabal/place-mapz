@@ -26,6 +26,7 @@
           text-align:center;
           vertical-align: middle;
           display: table-cell;
+          font-size: 24px;
           color: #797979;
         }
 
@@ -56,9 +57,19 @@
           font-weight: bold;
           border-bottom: 1px solid #E88420;
         }
+
         .center-col {
           margin: auto;
         }
+
+        /*.results {
+          margin: auto;
+        }
+
+        .results p {
+          text-align: center;
+          color: #797979;
+        }*/
     </style>
   </head>
   <body>
@@ -75,7 +86,7 @@
         </div>
       </md-toolbar>
       
-      <md-content flex="">
+      <md-content flex="" id="contentContainer">
         <!-- MAP -->
         <div id="map_canvas">
           <p>
@@ -111,6 +122,7 @@
         <!-- QUERY RESULTS -->
         <md-list flex="40" class='center-col'>
           <md-list-item class="md-3-line box" ng-repeat='place in places' ng-click='showAdvanced(place, $event)'>
+            <!-- <img style="margin: auto; max-width: 100%;" alt={{place.name}} src={{place.icon}}> -->
             <div class="md-list-item-text" layout="column">
               <p>{{place.label}}.  <u>{{place.name}}</u></p>
               <p>{{place.formatted_address}}</p>
