@@ -36,6 +36,11 @@
           text-align: center;
         }
 
+        .types {
+          color: #797979;
+          font-size: 14px;
+        }
+
         .angular-google-map-container {
             position: absolute;
             top: 0;
@@ -107,7 +112,7 @@
           </div>
 
           <div layout="row" layout-align="center" flex="">
-            <md-button ng-click="searchGoogle(query, latitude, longitude)" ng-disabled="!(query)">
+            <md-button ng-click="searchGoogle(query, latitude, longitude)" ng-disabled="!(query && mapIsReady)">
               Find!
             </md-button>
               <md-button ng-click="toggleLeft()" ng-disabled="!(recentSearches.length)">
@@ -124,6 +129,9 @@
             <div class="md-list-item-text" layout="column">
               <p>{{place.label}}.  <u>{{place.name}}</u></p>
               <p>{{place.formatted_address}}</p>
+              <div class="types">
+                <span ng-repeat='type in place.types'><i> {{type}} </i></span>
+              </div>
             </div>
           </md-list-item>
         </md-list>

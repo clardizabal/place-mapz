@@ -2,7 +2,7 @@
 
 angular.module('app.controllers', [])
 
-.controller('SearchCtrl', function($scope, $window, $mdDialog, $mdSidenav, Location, GoogleSearch) {
+.controller('SearchCtrl', function($scope, $window, $mdDialog, $mdSidenav, uiGmapIsReady, Location, GoogleSearch) {
   $scope.title = 'P l a c e M a p z';
   $scope.query;
   $scope.queries = {};
@@ -11,6 +11,7 @@ angular.module('app.controllers', [])
   $scope.markers = [];
   $scope.latitude;
   $scope.longitude;
+  $scope.mapIsReady = false;
 
   /* map options */
   $scope.options = {
@@ -23,6 +24,7 @@ angular.module('app.controllers', [])
 
   /* Use GoogleSearch service to query API for places */
   $scope.searchGoogle = function(query, latitude, longitude, callback) {
+    callback = callback || _.identity;
     /* populate recent searches */
     if (!$scope.queries.hasOwnProperty(query)) {
       $scope.queries[query] = query;
@@ -90,6 +92,10 @@ angular.module('app.controllers', [])
   $scope.showAdvanced = showAdvanced;
   $scope.showAlert = showAlert;
 
+  uiGmapIsReady.promise().then(function() {
+    $scope.mapIsReady = true;
+  });
+
   /* On load, get location of the client */
   Location.search().then(function(position) {
     $scope.latitude = position.coords.latitude;
@@ -118,6 +124,7 @@ angular.module('app.controllers', [])
 
   /* On click function to show more details */
   function showAdvanced(place, ev, callback) {
+    callback = callback || _.identity;
 
     GoogleSearch.details(place.place_id)
 
