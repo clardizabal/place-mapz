@@ -25,11 +25,6 @@ angular.module('app.controllers', [])
   /* Use GoogleSearch service to query API for places */
   $scope.searchGoogle = function(query, latitude, longitude, callback) {
     callback = callback || _.identity;
-    /* populate recent searches */
-    if (!$scope.queries.hasOwnProperty(query)) {
-      $scope.queries[query] = query;
-      $scope.recentSearches.push(query);
-    }
     latitude = latitude || $scope.latitude;
     longitude = longitude || $scope.longitude;
     
@@ -41,6 +36,11 @@ angular.module('app.controllers', [])
       $scope.places = data.results;
       $scope.markers = [];
       if ($scope.places.length > 0) {
+        /* populate recent searches */
+        if (!$scope.queries.hasOwnProperty(query)) {
+          $scope.queries[query] = query;
+          $scope.recentSearches.push(query);
+        }
         /* Remove extra query results from places array */
         $scope.places.splice(resultsLimit, GOOGLE_QUERY_RESULTS - resultsLimit);
         /* zIndex starts off with value == number of results and is decremented to
