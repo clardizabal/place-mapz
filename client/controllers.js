@@ -21,8 +21,10 @@ angular.module('app.controllers', [])
     ]
   };
 
+  $scope.showAlert = showAlert;
   /* Use GoogleSearch service to query API for places */
-  $scope.searchGoogle = function(query, latitude, longitude) {
+  $scope.searchGoogle = function(query, latitude, longitude, callback) {
+    /* populate recent searches */
     if (!$scope.queries.hasOwnProperty(query)) {
       $scope.queries[query] = query;
       $scope.recentSearches.push(query);
@@ -70,9 +72,11 @@ angular.module('app.controllers', [])
           }
         });
       } else {
-        showAlert();
+        // showAlert();
+        $scope.showAlert();
         centerMap();
       }
+      callback();
     });
   };
 
@@ -115,7 +119,7 @@ angular.module('app.controllers', [])
   }
 
   /* On click function to show more details */
-  function showAdvanced(place, ev) {
+  function showAdvanced(place, ev, callback) {
 
     GoogleSearch.details(place.place_id)
 
@@ -148,6 +152,8 @@ angular.module('app.controllers', [])
         clickOutsideToClose: true,
         fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
       });
+
+      callback();
     });
   };
 
