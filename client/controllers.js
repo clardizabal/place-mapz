@@ -21,7 +21,6 @@ angular.module('app.controllers', [])
     ]
   };
 
-  $scope.showAlert = showAlert;
   /* Use GoogleSearch service to query API for places */
   $scope.searchGoogle = function(query, latitude, longitude, callback) {
     /* populate recent searches */
@@ -72,7 +71,6 @@ angular.module('app.controllers', [])
           }
         });
       } else {
-        // showAlert();
         $scope.showAlert();
         centerMap();
       }
@@ -90,7 +88,7 @@ angular.module('app.controllers', [])
   }
 
   $scope.showAdvanced = showAdvanced;
-
+  $scope.showAlert = showAlert;
 
   /* On load, get location of the client */
   Location.search().then(function(position) {
