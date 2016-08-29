@@ -115,6 +115,9 @@
             <md-button ng-click="searchGoogle(query, latitude, longitude)" ng-disabled="!(query)">
               Find!
             </md-button>
+              <md-button ng-click="toggleLeft()" ng-disabled="!(recentSearches.length)">
+                Recent Searches
+              </md-button>
           </div>
           
         </form>
@@ -127,11 +130,28 @@
               <p>{{place.label}}.  <u>{{place.name}}</u></p>
               <p>{{place.formatted_address}}</p>
             </div>
-            <!-- <md-divider></md-divider> -->
           </md-list-item>
         </md-list>
 
       </md-content>
+      <md-sidenav class="md-sidenav-left" md-component-id="left" md-disable-backdrop="" md-whiteframe="4">
+
+        <md-toolbar>
+          <h1 class="md-toolbar-tools">P l a c e M a p z</h1>
+        </md-toolbar>
+
+        <md-content layout-margin="">
+          <div ng-repeat="recentSearch in recentSearches" layout="row" layout-align="center" flex="">
+            <md-button ng-click="redoSearch(recentSearch)">{{recentSearch}}</md-button>
+          </div>
+          <div layout="row" layout-align="center" flex="">
+            <md-button ng-click="toggleLeft()" class="md-accent">
+              Close
+            </md-button>
+          </div>
+        </md-content>
+
+      </md-sidenav>
     </div>
 
 

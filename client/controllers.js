@@ -2,9 +2,11 @@
 
 angular.module('app.controllers', [])
 
-.controller('SearchCtrl', function($scope, $window, $mdDialog, $anchorScroll, Location, GoogleSearch) {
+.controller('SearchCtrl', function($scope, $window, $mdDialog, $mdSidenav, Location, GoogleSearch) {
   $scope.query;
+  $scope.queries = {};
   $scope.places = [];
+  $scope.recentSearches = [];
   $scope.markers = [];
   $scope.latitude;
   $scope.longitude;
@@ -20,6 +22,10 @@ angular.module('app.controllers', [])
 
   /* Use GoogleSearch service to query API for places */
   $scope.searchGoogle = function(query, latitude, longitude) {
+    if (!$scope.queries.hasOwnProperty(query)) {
+      $scope.queries[query] = query;
+      $scope.recentSearches.push(query);
+    }
     latitude = latitude || $scope.latitude;
     longitude = longitude || $scope.longitude;
     
@@ -66,15 +72,20 @@ angular.module('app.controllers', [])
         showAlert();
         centerMap();
       }
-
     });
   };
 
+  $scope.redoSearch = function(query) {
+    $scope.toggleLeft();
+    $scope.searchGoogle(query, $scope.latitude, $scope.longitude);
+  }
+
+  $scope.toggleLeft = function() {
+    $mdSidenav('left').toggle();
+  }
+
   $scope.showAdvanced = showAdvanced;
 
-  // $scope.eventsObject = {
-  //       mouseover: markerMouseOver,
-  // };
 
   /* On load, get location of the client */
   Location.search().then(function(position) {
@@ -85,9 +96,13 @@ angular.module('app.controllers', [])
 
   /* Bring marker to fron by setting zIndex to highest value.
      BUG occurs with markers with after first search */
+  // $scope.eventsObject = {
+  //       mouseover: markerMouseOver,
+  // };
   // function markerMouseOver(marker, e, m) {
   //   m.options.zIndex = $scope.zIndex++;
   // }
+
   function centerMap() {
     $scope.map = {
       center: {
@@ -108,7 +123,6 @@ angular.module('app.controllers', [])
       // var types = data.result.types.reduce(function(sum, type) {
       //   return sum += type + " ";
       // },'');
-      console.log(data);
       var type = data.result.types[0];
 
       /* Some places don't have any photos. If place has photos, use photo_reference to get photo
