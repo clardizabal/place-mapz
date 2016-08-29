@@ -18,6 +18,7 @@ npm install
 npm start
 ```
 Recommended browser is Chrome. In order for the Google API to allow access to the origin, you must enable cross-origin resource sharing from your browser. Add this chrome extension: https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en
+
 Then, enable the extension in your settings and turn on "enable cross-origin resource sharing."
 
 Visit the http address provided by the server followed by /client/index.html in the browser.
@@ -34,4 +35,4 @@ npm test
 ```
 
 ##Usage
-Once the app loads, you can enter whatever you like into the input field where it asks "What are you looking for?" The Find button is disabled until something is entered in the input field. Click find to search for something via the Google Places API. An alert will pop up if the API was unable to return any results. A list of places is shown, and you may click on the to view advanced details. From the Advanced Details dialog, you can visit the website of the place you are interested in or search for similar places. Next to the "Find" button is the "Recent Searches" button which pulls upa side bar of all your recent searches. you can click on them to view those search results again.
+Once the app loads, you can enter whatever you like into the input field where it asks "What are you looking for?" The Find button is disabled until something is entered in the input field and the map is finished loading. Click "Find!" to search for something via the Google Places API. An alert will pop up if the API was unable to return any results. Markers will then be shown on the Google Map with labels for each item in the list of results. A list is shown below the map, and you may click on one to view advanced details. From the Advanced Details dialog, you can visit the website of the place you are interested in or search for similar places. Next to the "Find" button is the "Recent Searches" button which pulls up a side bar of all your recent searches. you can click on them to view those search results again.
