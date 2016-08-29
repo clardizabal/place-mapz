@@ -1,7 +1,7 @@
 {
   "scripts": {
     "test": "gulp karma",
-    "start": "python -m SimpleHTTPServer"
+    "start": "http-server"
   },
   "license": "UNLICENSED",
   "private": true,
