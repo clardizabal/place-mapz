@@ -3,6 +3,7 @@
 angular.module('app.controllers', [])
 
 .controller('SearchCtrl', function($scope, $window, $mdDialog, $mdSidenav, Location, GoogleSearch) {
+  $scope.title = 'P l a c e M a p z';
   $scope.query;
   $scope.queries = {};
   $scope.places = [];

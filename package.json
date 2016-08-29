@@ -7,7 +7,13 @@
   "private": true,
   "dependencies": {
     "angular": "^1.5.3",
+    "angular-animate": "^1.5.8",
+    "angular-aria": "^1.5.8",
+    "angular-google-maps": "^2.3.4",
+    "angular-material": "^1.1.0",
+    "angular-messages": "^1.5.8",
     "angular-mocks": "^1.5.8",
+    "angular-simple-logger": "^0.1.7",
     "chai": "^3.5.0",
     "gulp": "^3.9.1",
     "karma": "^1.2.0",
@@ -17,6 +23,7 @@
     "karma-phantomjs-launcher": "^1.0.1",
     "karma-sinon": "^1.0.5",
     "karma-unicorn-reporter": "^0.1.4",
+    "lodash": "^4.15.0",
     "mocha": "^3.0.2",
     "sinon": "^1.17.5",
     "sinon-chai": "^2.8.0"
